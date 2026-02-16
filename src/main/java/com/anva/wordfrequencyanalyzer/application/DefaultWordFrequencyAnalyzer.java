@@ -26,7 +26,11 @@ public class DefaultWordFrequencyAnalyzer implements WordFrequencyAnalyzer {
 
     @Override
     public int calculateFrequencyForWord(String text, String word) {
-        return 0;
+        if(word == null) {
+            throw new IllegalArgumentException(INVALID_INPUT_ERROR);
+        }
+        final Map<String, Integer> result = getWordFrequencyGrouping(text);
+        return result.getOrDefault(word, 0);
     }
 
     @Override
@@ -35,7 +39,9 @@ public class DefaultWordFrequencyAnalyzer implements WordFrequencyAnalyzer {
     }
 
     private Map<String, Integer> getWordFrequencyGrouping(String text) {
-        assert text != null : INVALID_INPUT_ERROR;
+        if(text == null) {
+            throw new IllegalArgumentException(INVALID_INPUT_ERROR);
+        }
         Map<String, Integer> result = new HashMap<>();
 
         //We avoid multiple lowerCase calls per word later on
