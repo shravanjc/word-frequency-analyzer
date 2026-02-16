@@ -1,22 +1,29 @@
 package com.anva.wordfrequencyanalyzer.application;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.anva.wordfrequencyanalyzer.domain.DefaultWordFrequency;
 import com.anva.wordfrequencyanalyzer.domain.WordFrequency;
 import com.anva.wordfrequencyanalyzer.infra.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
 @Slf4j
+@Service
 public class DefaultWordFrequencyAnalyzer implements WordFrequencyAnalyzer {
 
-    private final ApplicationProperties  applicationProperties;
-    public static final String INVALID_INPUT_ERROR = "Invalid input. Cannot be null or empty";
+    public static final String INVALID_TEXT_ERROR = "Input text is required";
+    public static final String INVALID_WORD_ERROR = "Input word is required";
+    public static final String INVALID_LIMIT_ERROR = "Input limit should be greater than 0";
+
+    private final ApplicationProperties applicationProperties;
 
     @Override
     public int calculateHighestFrequency(String text) {
@@ -26,8 +33,8 @@ public class DefaultWordFrequencyAnalyzer implements WordFrequencyAnalyzer {
 
     @Override
     public int calculateFrequencyForWord(String text, String word) {
-        if(word == null) {
-            throw new IllegalArgumentException(INVALID_INPUT_ERROR);
+        if (word == null) {
+            throw new IllegalArgumentException(INVALID_WORD_ERROR);
         }
         final Map<String, Integer> result = getWordFrequencyGrouping(text);
         return result.getOrDefault(word, 0);
@@ -35,15 +42,27 @@ public class DefaultWordFrequencyAnalyzer implements WordFrequencyAnalyzer {
 
     @Override
     public List<WordFrequency> calculateMostFrequentNWords(String text, int n) {
-        return List.of();
+        if (n <= 0) {
+            throw new IllegalArgumentException(INVALID_LIMIT_ERROR);
+        }
+        final Map<String, Integer> result = getWordFrequencyGrouping(text, new LinkedHashMap<>());
+        final Comparator<Map.Entry<String, Integer>> sortComparator = Map.Entry.<String, Integer>comparingByValue().reversed();
+        return result.entrySet().stream()
+                .sorted(sortComparator)
+                .limit(n)
+                .map(entry -> new DefaultWordFrequency(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
     }
 
     private Map<String, Integer> getWordFrequencyGrouping(String text) {
-        if(text == null) {
-            throw new IllegalArgumentException(INVALID_INPUT_ERROR);
-        }
         Map<String, Integer> result = new HashMap<>();
+        return getWordFrequencyGrouping(text, result);
+    }
 
+    private Map<String, Integer> getWordFrequencyGrouping(String text, final Map<String, Integer> result) {
+        if (text == null) {
+            throw new IllegalArgumentException(INVALID_TEXT_ERROR);
+        }
         //We avoid multiple lowerCase calls per word later on
         final String lowerCaseText = text.toLowerCase();
 
