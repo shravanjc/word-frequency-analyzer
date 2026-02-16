@@ -1,0 +1,6 @@
+text,word,expectedFreq
+test abn ABC Test,test,2
+test4234abn; ABC Test abn,abc,1
+test,bac,0
+"  ","  ",0
+"","",0

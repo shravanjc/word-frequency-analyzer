@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class WordFrequencyController {
     private final WordFrequencyAnalyzer wordFrequencyAnalyzer;
 
-    @PostMapping("/highest-frequency")
+    @PostMapping("/frequency/highest")
     public int calculateHighestFrequency(@RequestBody String text) {
         return wordFrequencyAnalyzer.calculateHighestFrequency(text);
     }
 
     @PostMapping("/frequency/{word}")
-    public int calculateFrequencyForWord(String text, @PathVariable String word) {
+    public int calculateFrequencyForWord(@RequestBody String text, @PathVariable String word) {
         return wordFrequencyAnalyzer.calculateFrequencyForWord(text, word);
     }
 
-    @PostMapping("/top-frequency/{limit}")
-    public List<WordFrequency> calculateMostFrequentNWords(String text, @PathVariable int limit) {
+    @PostMapping("/frequency/top/{limit}")
+    public List<WordFrequency> calculateMostFrequentNWords(@RequestBody String text, @PathVariable int limit) {
         return wordFrequencyAnalyzer.calculateMostFrequentNWords(text, limit);
     }
 }
