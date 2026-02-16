@@ -1,6 +1,8 @@
-package com.anva.wordfrequencyanalyzer.domain;
+package com.anva.wordfrequencyanalyzer.application;
 
 import java.util.List;
+
+import com.anva.wordfrequencyanalyzer.domain.WordFrequency;
 
 public interface WordFrequencyAnalyzer {
     int calculateHighestFrequency(String text);
