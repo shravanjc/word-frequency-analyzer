@@ -16,20 +16,25 @@ Following assumptions are considered:
   indicate that "the" occurs 2 times.
 
 ### Use case
-Three methods defined in the above interface are exposed via REST API:
-- calculateHighestFrequency returns the highest frequency in the text (multiple
+Three methods defined in the below interfaces are exposed via REST API:
+- **calculateHighestFrequency** returns the highest frequency in the text (multiple
 words may have this frequency);
-  - API: `POST /frequency/highest` with text in request payload
-- calculateFrequencyForWord returns the frequency for the specified word in the
+  - **API**: `POST /frequency/highest` with text in request payload
+- **calculateFrequencyForWord** returns the frequency for the specified word in the
 specified text;
-  - API: `POST /frequency/by-word/{word}` with text in request payload
-- calculateMostFrequentNWords returns a list of the “n” most frequent words in
+  - **API**: `POST /frequency/by-word/{word}` with text in request payload
+- **calculateMostFrequentNWords** returns a list of the “n” most frequent words in
 the specified text, with all words returned in lowercase. If multiple words have the
 same frequency, they are returned in alphabetical order. As an example: the text "The cat walks over the staircase" with n = 3 will return the
 following list: {("the", 2), ("cat", 1), ("walks", 1)}
-  - API: `POST /frequency/by-limit/{limit}` with text in request payload
+  - **API**: `POST /frequency/by-limit/{limit}` with text in request payload
 
 ## Running the application
+
+### Prerequisite 
+- Java 25
+- Gradle
+- Optional rest Client for local testing. [Postman](https://postman.com). Sample requests [postman_collection.json](./postman_collection.json) can be used.
 
 To run the application, you can use the following command:
 
@@ -37,7 +42,7 @@ To run the application, you can use the following command:
 ./gradlew bootRun
 ```
 
-The application will be available at `http://localhost:8080`.
+This will build all the necessary packages needed and start the application at `http://localhost:8080`.
 
 ## Running the tests
 
