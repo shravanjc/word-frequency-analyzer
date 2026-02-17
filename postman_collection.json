@@ -1,0 +1,109 @@
+{
+  "info": {
+    "_postman_id": "dc47a741-4478-401b-902c-2d2a75032a64",
+    "name": "Anva",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51978122",
+    "_collection_link": "https://go.postman.co/collection/51978122-dc47a741-4478-401b-902c-2d2a75032a64?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Frequency Highest",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "This is the122 test to check the frequency",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/frequency/highest",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "frequency",
+            "highest"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Frequency by word",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "This is the122 test to check the frequency    \n\n\n\nword the",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/frequency/by-word/:word",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "frequency",
+            "by-word",
+            ":word"
+          ],
+          "variable": [
+            {
+              "key": "word",
+              "value": "the"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Frequency by limit",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "This is the122 test to check the frequency    \n\n\n\nword the",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/frequency/by-limit/:limit",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "frequency",
+            "by-limit",
+            ":limit"
+          ],
+          "variable": [
+            {
+              "key": "limit",
+              "value": "3"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

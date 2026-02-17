@@ -1,0 +1,23 @@
+### Frequency Highest
+POST http://localhost:8080/frequency/highest
+Content-Type: text/plain
+
+This is the122 test to check the frequency
+
+### Frequency by word
+POST http://localhost:8080/frequency/by-word/the
+Content-Type: text/plain
+
+This is the122 test to check the frequency
+
+
+word the
+
+### Frequency by limit
+POST http://localhost:8080/frequency/by-limit/3
+Content-Type: text/plain
+
+This is the122 test to check the frequency
+
+
+word the

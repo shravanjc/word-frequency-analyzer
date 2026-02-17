@@ -1,6 +1,6 @@
 # Word Frequency Analyzer
 
-This is a lightweight Domain-Driven Design (DDD) Spring Boot application that analyzes the frequency
+This is a lightweight Spring Boot application that analyzes the frequency
 of words in a given text which contains words separated by non-characters.
 Following assumptions are considered:
 
@@ -33,6 +33,23 @@ To run the tests, you can use the following command:
 ./gradlew test
 ```
 
+To run the test coverage, you can use the following command:
+
+```bash
+./gradlew test jacocoTestReport
+```
+Report should be available at: `./build/reports/jacoco/test/html/index.html`
+Should look like this: ![A sample coverage](./coverage-report.png "Test coverage")
+
+***
+# Local Testing
+**Sample postman coverage for testing**
+[postman_collection.json](./postman_collection.json)
+
+**If you prefer http requests**
+[requests.http](./requests.http)
+***
+
 ## Project Structure
 
 The project is structured as follows:
@@ -42,3 +59,4 @@ The project is structured as follows:
     - `application`: Contains the application services.
     - `domain`: Contains the domain objects.
 - `src/test/java`: Contains the test source code.
+- `src/itest/java`: Contains the integration test source code.
