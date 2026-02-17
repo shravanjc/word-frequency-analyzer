@@ -32,9 +32,6 @@ public class ControllerExceptionHandler {
                         .collect(Collectors.toList());
                 yield ResponseEntity.badRequest().body(failure(BAD_REQUEST.value(), violations));
             }
-            case IllegalArgumentException illegalArgumentException -> {
-                yield ResponseEntity.badRequest().body(failure(BAD_REQUEST.value(), illegalArgumentException.getLocalizedMessage()));
-            }
             case NoResourceFoundException noResourceFoundException -> {
                 yield ResponseEntity.badRequest().body(failure(NOT_FOUND.value(), noResourceFoundException.getLocalizedMessage()));
             }

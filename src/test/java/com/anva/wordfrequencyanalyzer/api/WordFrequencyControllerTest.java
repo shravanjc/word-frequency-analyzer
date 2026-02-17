@@ -1,24 +1,31 @@
 package com.anva.wordfrequencyanalyzer.api;
 
 import java.util.List;
+import java.util.Set;
 import java.util.random.RandomGenerator;
 
 import com.anva.wordfrequencyanalyzer.application.WordFrequencyAnalyzer;
 import com.anva.wordfrequencyanalyzer.domain.DefaultWordFrequency;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.anva.wordfrequencyanalyzer.api.ControllerExceptionHandler.GENERIC_ERROR_MESSAGE;
 import static com.anva.wordfrequencyanalyzer.application.DefaultWordFrequencyAnalyzer.INVALID_LIMIT_ERROR;
 import static com.anva.wordfrequencyanalyzer.application.DefaultWordFrequencyAnalyzer.INVALID_TEXT_ERROR;
 import static com.anva.wordfrequencyanalyzer.application.DefaultWordFrequencyAnalyzer.INVALID_WORD_ERROR;
+import org.mockito.ArgumentCaptor;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -33,6 +40,9 @@ class WordFrequencyControllerTest {
 
     @MockitoBean
     private WordFrequencyAnalyzer wordFrequencyAnalyzer;
+
+    @MockitoSpyBean
+    private ControllerExceptionHandler exceptionHandler;
 
     @Test
     @DisplayName("POST /frequency/highest - Success")
@@ -55,15 +65,20 @@ class WordFrequencyControllerTest {
     @DisplayName("POST /frequency/highest - Failure - Empty request body")
     void calculateHighestFrequencyInvalidTest() throws Exception {
         //Arrange
+        final ArgumentCaptor<Exception> exceptionCaptor = ArgumentCaptor.forClass(Exception.class);
         when(wordFrequencyAnalyzer.calculateHighestFrequency(anyString()))
-                .thenThrow(new IllegalArgumentException(INVALID_TEXT_ERROR));
+                .thenThrow(new ConstraintViolationException(INVALID_TEXT_ERROR, Set.of()));
 
-        //Act and Assert
+        //Act
         mockMvc.perform(post("/frequency/highest").content(" "))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.statusCode").value(400))
-                .andExpect(jsonPath("$.data").value(INVALID_TEXT_ERROR));
+                .andExpect(jsonPath("$.statusCode").value(400));
+
+        //Assert
+        verify(exceptionHandler).handleException(exceptionCaptor.capture());
+        assertThat(exceptionCaptor.getValue()).isInstanceOf(ConstraintViolationException.class);
+        assertThat(exceptionCaptor.getValue().getMessage()).isEqualTo(INVALID_TEXT_ERROR);
     }
 
     @Test
@@ -98,16 +113,21 @@ class WordFrequencyControllerTest {
     @DisplayName("POST /frequency/by-word/{word} - Failure")
     void calculateFrequencyForWordInvalid() throws Exception {
         //Arrange
+        final ArgumentCaptor<Exception> exceptionCaptor = ArgumentCaptor.forClass(Exception.class);
         when(wordFrequencyAnalyzer.calculateFrequencyForWord(anyString(), anyString()))
-                .thenThrow(new IllegalArgumentException(INVALID_WORD_ERROR));
+                .thenThrow(new ConstraintViolationException(INVALID_WORD_ERROR, Set.of()));
 
         //Act and Assert
         mockMvc.perform(post("/frequency/by-word/hello")
                         .content("hello world hello"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.statusCode").value(400))
-                .andExpect(jsonPath("$.data").value(INVALID_WORD_ERROR));
+                .andExpect(jsonPath("$.statusCode").value(400));
+
+        //Assert
+        verify(exceptionHandler).handleException(exceptionCaptor.capture());
+        assertThat(exceptionCaptor.getValue()).isInstanceOf(ConstraintViolationException.class);
+        assertThat(exceptionCaptor.getValue().getMessage()).isEqualTo(INVALID_WORD_ERROR);
     }
 
     @Test
@@ -138,15 +158,20 @@ class WordFrequencyControllerTest {
     @DisplayName("POST /frequency/by-limit/{limit} - Failure")
     void calculateMostFrequentNWordsInvalid() throws Exception {
         //Arrange
+        final ArgumentCaptor<Exception> exceptionCaptor = ArgumentCaptor.forClass(Exception.class);
         when(wordFrequencyAnalyzer.calculateMostFrequentNWords(anyString(), anyInt()))
-                .thenThrow(new IllegalArgumentException(INVALID_LIMIT_ERROR));
+                .thenThrow(new ConstraintViolationException(INVALID_WORD_ERROR, Set.of()));
 
         //Act and Assert
         mockMvc.perform(post("/frequency/by-limit/2")
                         .content("hello world hello world hello"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.statusCode").value(400))
-                .andExpect(jsonPath("$.data").value(INVALID_LIMIT_ERROR));
+                .andExpect(jsonPath("$.statusCode").value(400));
+
+        //Assert
+        verify(exceptionHandler).handleException(exceptionCaptor.capture());
+        assertThat(exceptionCaptor.getValue()).isInstanceOf(ConstraintViolationException.class);
+        assertThat(exceptionCaptor.getValue().getMessage()).isEqualTo(INVALID_WORD_ERROR);
     }
 }
