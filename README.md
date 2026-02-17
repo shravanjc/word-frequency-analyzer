@@ -8,12 +8,26 @@ Following assumptions are considered:
   example: kjsHKDieh or Insurance;
 - **Input Text**: The input text contains words which are separated by different types of
   separation characters. Added assumption that any non-char (not a-z A-Z) is considered a
-  separation.
+  separation. This is configurable property in [application.properties](./src/main/resources/application.properties "Test coverage")
 - **Available memory**: There is sufficient memory available to store the entire
   entered text;
 - **Capitalization**: For this case, there is no distinction made between uppercase and
   lowercase letters. For example: the sentence "The car is the color purple." will
   indicate that "the" occurs 2 times.
+
+### Use case
+Three methods defined in the above interface are exposed via REST API:
+- calculateHighestFrequency returns the highest frequency in the text (multiple
+words may have this frequency);
+  - API: `POST /frequency/highest` with text in request payload
+- calculateFrequencyForWord returns the frequency for the specified word in the
+specified text;
+  - API: `POST /frequency/by-word/{word}` with text in request payload
+- calculateMostFrequentNWords returns a list of the “n” most frequent words in
+the specified text, with all words returned in lowercase. If multiple words have the
+same frequency, they are returned in alphabetical order. As an example: the text "The cat walks over the staircase" with n = 3 will return the
+following list: {("the", 2), ("cat", 1), ("walks", 1)}
+  - API: `POST /frequency/by-limit/{limit}` with text in request payload
 
 ## Running the application
 
