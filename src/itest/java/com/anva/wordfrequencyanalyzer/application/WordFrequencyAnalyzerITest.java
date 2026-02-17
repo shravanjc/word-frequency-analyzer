@@ -49,7 +49,7 @@ class WordFrequencyAnalyzerITest {
 
         final WordFrequency secondWordFreq = wordFrequencies.getLast();
         assertThat(secondWordFreq.getFrequency()).isEqualTo(1);
-        assertThat(secondWordFreq.getWord()).isEqualTo("most");
+        assertThat(secondWordFreq.getWord()).isEqualTo("frequent");
     }
 
     @ParameterizedTest

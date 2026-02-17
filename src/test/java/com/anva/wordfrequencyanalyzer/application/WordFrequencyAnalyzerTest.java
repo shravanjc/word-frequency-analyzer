@@ -46,7 +46,7 @@ class WordFrequencyAnalyzerTest {
     void calculateMostFrequentNWordsTest(String text, int limit, String expectedWordAndFreq) {
         final List<WordFrequency> wordFrequencies = wordFrequencyAnalyzer.calculateMostFrequentNWords(text, limit);
         final List<WordFrequency> expectedWordFrequencies = parseWordFrequency(expectedWordAndFreq);
-        assertThat(wordFrequencies).containsExactlyInAnyOrderElementsOf(expectedWordFrequencies);
+        assertThat(wordFrequencies).containsExactlyElementsOf(expectedWordFrequencies);
     }
 
     private List<WordFrequency> parseWordFrequency(String text) {

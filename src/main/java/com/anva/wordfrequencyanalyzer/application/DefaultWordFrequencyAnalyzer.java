@@ -38,7 +38,9 @@ public class DefaultWordFrequencyAnalyzer implements WordFrequencyAnalyzer {
     @Override
     public List<WordFrequency> calculateMostFrequentNWords(final String text, final int n) {
         final Map<String, Integer> result = getWordFrequencyGrouping(text, new LinkedHashMap<>());
-        final Comparator<Map.Entry<String, Integer>> sortComparator = Map.Entry.<String, Integer>comparingByValue().reversed();
+        //Compare first by descending order of frequency, on tie use alphabetical sorting of word
+        final Comparator<Map.Entry<String, Integer>> sortComparator = Map.Entry.<String, Integer>comparingByValue().reversed()
+                .thenComparing(Map.Entry.comparingByKey());
         return result.entrySet().stream()
                 .sorted(sortComparator)
                 .limit(n)

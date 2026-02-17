@@ -77,7 +77,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "This is the122 test to check the frequency    \n\n\n\nword the",
+          "raw": "This is the122 test to check the frequency of a\n\n\n\nword the this a word this a",
           "options": {
             "raw": {
               "language": "text"
@@ -98,7 +98,7 @@
           "variable": [
             {
               "key": "limit",
-              "value": "3"
+              "value": "5"
             }
           ]
         }
