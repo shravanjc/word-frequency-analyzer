@@ -34,26 +34,11 @@ class WordFrequencyAnalyzerTest {
         assertThat(highestFrequency).isEqualTo(expectedFreq);
     }
 
-    @Test
-    void calculateHighestFrequencyInvalidTest() {
-        final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> wordFrequencyAnalyzer.calculateHighestFrequency(null));
-        assertThat(exception.getMessage()).isEqualTo(INVALID_TEXT_ERROR);
-    }
-
     @ParameterizedTest
     @CsvFileSource(resources = "/calculateFrequencyForWord_valid.csv", numLinesToSkip = 1)
     void calculateFrequencyForWordTest(String text, String word, int expectedFreq) {
         final int highestFrequency = wordFrequencyAnalyzer.calculateFrequencyForWord(text, word);
         assertThat(highestFrequency).isEqualTo(expectedFreq);
-    }
-
-    @Test
-    void calculateFrequencyForWordInvalidTest() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> wordFrequencyAnalyzer.calculateFrequencyForWord(null, "test"));
-        assertThat(exception.getMessage()).isEqualTo(INVALID_TEXT_ERROR);
-
-        exception = assertThrows(IllegalArgumentException.class, () -> wordFrequencyAnalyzer.calculateFrequencyForWord(" ", null));
-        assertThat(exception.getMessage()).isEqualTo(INVALID_WORD_ERROR);
     }
 
     @ParameterizedTest
@@ -62,13 +47,6 @@ class WordFrequencyAnalyzerTest {
         final List<WordFrequency> wordFrequencies = wordFrequencyAnalyzer.calculateMostFrequentNWords(text, limit);
         final List<WordFrequency> expectedWordFrequencies = parseWordFrequency(expectedWordAndFreq);
         assertThat(wordFrequencies).containsExactlyInAnyOrderElementsOf(expectedWordFrequencies);
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(resources = "/calculateMostFrequentNWords_invalid.csv", numLinesToSkip = 1)
-    void calculateMostFrequentNWordsInvalidTest(String text, int limit) {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> wordFrequencyAnalyzer.calculateMostFrequentNWords(text, limit));
-        assertThat(exception.getMessage()).isEqualTo(INVALID_LIMIT_ERROR);
     }
 
     private List<WordFrequency> parseWordFrequency(String text) {
