@@ -14,10 +14,10 @@ This is the122 test to check the frequency
 word the
 
 ### Frequency by limit
-POST http://localhost:8080/frequency/by-limit/3
+POST http://localhost:8080/frequency/by-limit/5
 Content-Type: text/plain
 
-This is the122 test to check the frequency
+This is the122 test to check the frequency of a
 
 
-word the
+word the this a word this a
