@@ -7,6 +7,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,10 +18,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 class WordFrequencyAnalyzerITest {
 
-    @Autowired
-    private WordFrequencyAnalyzer wordFrequencyAnalyzer;
+    private final WordFrequencyAnalyzer wordFrequencyAnalyzer;
 
     @Test
     void calculateFrequencyForWordInvalidTest() {

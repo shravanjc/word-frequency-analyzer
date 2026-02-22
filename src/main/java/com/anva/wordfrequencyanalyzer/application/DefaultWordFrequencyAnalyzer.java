@@ -32,7 +32,7 @@ public class DefaultWordFrequencyAnalyzer implements WordFrequencyAnalyzer {
     @Override
     public int calculateFrequencyForWord(final String text, final String word) {
         final Map<String, Integer> result = getWordFrequencyGrouping(text);
-        return result.getOrDefault(word, 0);
+        return result.getOrDefault(word.toLowerCase(), 0);
     }
 
     @Override
