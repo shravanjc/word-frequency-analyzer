@@ -41,7 +41,9 @@ class WordFrequencyAnalyzerPropertyTest {
             @ForAll String text) {
         int before = wordFrequencyAnalyzer.calculateFrequencyForWord(text, word);
         int after = wordFrequencyAnalyzer.calculateFrequencyForWord(text + " " + word, word);
+        int afterForLowerCase = wordFrequencyAnalyzer.calculateFrequencyForWord(text + " " + word, word.toLowerCase());
         assertThat(after).isEqualTo(before + 1);
+        assertThat(afterForLowerCase).isEqualTo(after);
     }
 
     // Invariant 4: no word can appear more often than the most frequent word in the text
